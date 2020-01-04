@@ -1,5 +1,5 @@
 """
-WSGI config for nothing_here project.
+WSGI config for dedbeetz project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nothing_here.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dedbeetz.settings')
 
 application = get_wsgi_application()
