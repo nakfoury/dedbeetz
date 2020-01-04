@@ -11,7 +11,7 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <p>
-          It's Zinger!
+          It's Zinger and Flame!
         </p>
         <a
           className="App-link"
