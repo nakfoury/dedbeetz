@@ -25,3 +25,6 @@ yarn-error.log*
 
 # django
 db.sqlite3
+
+# idea
+.idea
