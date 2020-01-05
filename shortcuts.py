@@ -13,7 +13,6 @@ if __name__ == '__main__':
         exit(0 if os.system(locals()[sys.argv[1]]) == 0 else 1)
     except IndexError:
         print('A command is required', file=sys.stderr)
-        exit(1)
     except (TypeError, KeyError):
         print(f'Bad command: {sys.argv[1]}', file=sys.stderr)
-        exit(1)
+    exit(1)
