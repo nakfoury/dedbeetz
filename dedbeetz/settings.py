@@ -77,26 +77,15 @@ WSGI_APPLICATION = 'dedbeetz.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if os.getenv('GAE_APPLICATION', None):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'HOST': '/cloudsql/dedbeetz:us-west2:dedbeetz-postgresql',
-            'USER': 'django',
-            'PASSWORD': 'django123',
-            'NAME': 'dedbeetz',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': '/cloudsql/dedbeetz:us-west2:dedbeetz-postgresql' if os.getenv('GAE_APPLICATION') else '127.0.0.1',
+        'USER': 'django',
+        'PASSWORD': 'django123',
+        'NAME': 'dedbeetz',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'HOST': '127.0.0.1',
-            'USER': 'django',
-            'PASSWORD': 'django123',
-            'NAME': 'dedbeetz',
-        }
-    }
+}
 
 
 # Password validation
