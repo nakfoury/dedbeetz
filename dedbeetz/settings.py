@@ -25,7 +25,11 @@ SECRET_KEY = 'm@jrd*=wb%_0c=7i=rj-%e6ys)8rj$9@%3w@@2dqdj5a-+vh20'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# SECURITY WARNING: App Engine's security features ensure that it is safe to
+# have ALLOWED_HOSTS = ['*'] when the app is deployed. If you deploy a Django
+# app not on App Engine, make sure to set an appropriate host here.
+# See https://docs.djangoproject.com/en/2.1/ref/settings/
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
