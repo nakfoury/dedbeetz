@@ -32,15 +32,15 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-#     - name: Setup gcloud CLI
-#       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-#       with:
-#         version: '270.0.0'
-#         service_account_email: ${{ secrets.GAE_SERVICE_ACCOUNT_EMAIL }}
-#         service_account_key: ${{ secrets.GAE_SERVICE_ACCOUNT_KEY }}
+     - name: Setup gcloud CLI
+       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+       with:
+         version: '270.0.0'
+         service_account_email: ${{ secrets.GAE_SERVICE_ACCOUNT_EMAIL }}
+         service_account_key: ${{ secrets.GAE_SERVICE_ACCOUNT_KEY }}
 
     - name: Collect Static
       run: python manage.py collectstatic
 
-#     - name: Deploy
-#       run: gcloud --quiet --project dedbeetz app deploy
+     - name: Deploy
+       run: gcloud --quiet --project dedbeetz app deploy
