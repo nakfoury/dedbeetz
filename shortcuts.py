@@ -4,7 +4,7 @@
 import sys
 import os
 
-sqlproxy = 'cloud_sql_proxy -instances="dedbeetz:us-west2:dedbeetz-postgresql"=tcp:5432'
+sqlproxy = 'cloud_sql_proxy -instances="dedbeetz:us-central1:dedbeetz-mysql"=tcp:3306'
 
 deploy = 'python manage.py collectstatic --no-input & gcloud --quiet --project dedbeetz app deploy'
 

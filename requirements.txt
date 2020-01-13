@@ -1,5 +1,5 @@
-Django==3.0.2
-psycopg2-binary==2.8.4
+Django==2.1.14 #This requirement must remain pinned at 2.1.14 until https://github.com/PyMySQL/PyMySQL/issues/790 is resolved
+PyMySQL==0.9.3
 django-crispy-forms==1.8.1
 django-storages[google]==1.8
 google-cloud-storage==1.24.1

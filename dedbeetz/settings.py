@@ -80,10 +80,16 @@ WSGI_APPLICATION = 'dedbeetz.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# Install PyMySQL as mysqlclient/MySQLdb to use Django's mysqlclient adapter
+# See https://docs.djangoproject.com/en/2.1/ref/databases/#mysql-db-api-drivers
+# for more information
+import pymysql  # noqa: 402
+pymysql.install_as_MySQLdb()
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': '/cloudsql/dedbeetz:us-west2:dedbeetz-postgresql' if os.getenv('GAE_APPLICATION') else '127.0.0.1',
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '/cloudsql/dedbeetz:us-central1:dedbeetz-mysql' if os.getenv('GAE_APPLICATION') else '127.0.0.1',
         'USER': 'django',
         'PASSWORD': 'django123',
         'NAME': 'dedbeetz',
