@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +130,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = 'static'
+
+# django-crispy-forms settings
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# dynamic content / file uploads
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'dedbeetz-media'
