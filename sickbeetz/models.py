@@ -1,12 +1,14 @@
 from django.db import models
 from django.utils import timezone
-from django.core.validators import FileExtensionValidator
+# from django.core.validators import FileExtensionValidator
+from .validators import validate_file_type
 
 
 # Create your models here.
 
 class VoicedBeat(models.Model):
-    file = models.FileField(upload_to='voiced-beats', validators=[FileExtensionValidator(allowed_extensions=['wav'])])
+    # file = models.FileField(upload_to='voiced-beats', validators=[FileExtensionValidator(allowed_extensions=['wav'])])
+    file = models.FileField(upload_to='voiced-beats', validators=[validate_file_type])
     created_at = models.DateTimeField(editable=False)
     updated_at = models.DateTimeField(editable=False)
 

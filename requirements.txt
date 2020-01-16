@@ -3,3 +3,4 @@ PyMySQL==0.9.3
 django-crispy-forms==1.8.1
 django-storages[google]==1.8
 google-cloud-storage==1.24.1
+python-magic==0.4.15
