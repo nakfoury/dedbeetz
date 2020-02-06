@@ -1,4 +1,4 @@
-from dedbeetz.wsgi import application
+# from dedbeetz.wsgi import application
 
 # App Engine by default looks for a main.py file at the root of the app
 # directory with a WSGI-compatible object called app.
@@ -7,4 +7,20 @@ from dedbeetz.wsgi import application
 # App Engine without additional configuration.
 # Alternatively, you can add a custom entrypoint field in your app.yaml:
 # entrypoint: gunicorn -b :$PORT dedbeetz.wsgi
-app = application
+# app = application
+
+
+import datetime
+
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def root():
+    return render_template('index.html')
+
+
+if __name__ == '__main__':
+    app.run(host='127.0.0.1', port=8080, debug=True)
