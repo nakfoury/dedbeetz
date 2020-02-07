@@ -11,16 +11,37 @@
 
 
 import datetime
+import magic
 
-from flask import Flask, render_template
+import os
+from flask import Flask, request, render_template
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = 'beetz/'
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-@app.route('/')
+def allowed_file(file):
+    return True
+
+
+@app.route('/', methods=['GET'])
 def root():
     return render_template('index.html')
 
 
+@app.route('/', methods=['POST'])
+def upload_file():
+    file = request.files['fileToUpload']
+    if file and allowed_file(file):
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
+    return render_template('index.html')
+
+
 if __name__ == '__main__':
+    # This is used when running locally only. When deploying to Google App
+    # Engine, a webserver process such as Gunicorn will serve the app. This
+    # can be configured by adding an `entrypoint` to app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
