@@ -10,12 +10,7 @@
 # app = application
 
 
-import datetime
-import magic
-
-import os
 from flask import Flask, request, render_template
-from werkzeug.utils import secure_filename
 from google.cloud import storage
 storage_client = storage.Client()
 
@@ -42,7 +37,7 @@ def upload_file():
     f = request.files['fileToUpload']
     if f and allowed_file(f):
         bucket = storage_client.get_bucket("dedbeetz-media")
-        blob = bucket.blob(f.filename)
+        blob = bucket.blob('beetz/' + f.filename)
         blob.upload_from_file(f)
         # f.save(os.path.join('gs://dedbeetz-media', app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
     return render_template('index.html')
