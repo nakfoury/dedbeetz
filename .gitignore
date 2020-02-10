@@ -1,5 +1,4 @@
 .idea
-db.sqlite3
 env
-/static
+venv
 bootstrap.css
