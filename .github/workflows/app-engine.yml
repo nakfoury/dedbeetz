@@ -39,8 +39,5 @@ jobs:
          service_account_email: ${{ secrets.GAE_SERVICE_ACCOUNT_EMAIL }}
          service_account_key: ${{ secrets.GAE_SERVICE_ACCOUNT_KEY }}
 
-    - name: Collect Static
-      run: python manage.py collectstatic
-
     - name: Deploy
       run: gcloud --quiet --project dedbeetz app deploy
