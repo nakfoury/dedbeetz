@@ -34,9 +34,9 @@ def root():
 
 @app.route('/', methods=['POST'])
 def upload_file():
-    file = request.files['fileToUpload']
-    if file and allowed_file(file):
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
+    f = request.files['fileToUpload']
+    if f and allowed_file(f):
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
     return render_template('index.html')
 
 
