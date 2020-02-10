@@ -36,7 +36,8 @@ def root():
 def upload_file():
     f = request.files['fileToUpload']
     if f and allowed_file(f):
-        f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+        f.save(os.path.join('gs://dedbeetz-media', app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+        # f.save('gs://<bucket>/'.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
     return render_template('index.html')
 
 
