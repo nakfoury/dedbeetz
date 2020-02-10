@@ -1,4 +1,4 @@
 .idea
 env
-/static
+venv
 bootstrap.css
