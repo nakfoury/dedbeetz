@@ -10,12 +10,10 @@
 # app = application
 
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from google.cloud import storage
-storage_client = storage.Client()
 
-
-
+storage_client = storage.Client(project='dedbeetz')
 
 UPLOAD_FOLDER = 'beetz/'
 
@@ -29,17 +27,17 @@ def allowed_file(file):
 
 @app.route('/', methods=['GET'])
 def root():
-    return render_template('index.html')
+    return render_template('index.html', hello='yes')
 
 
-@app.route('/', methods=['POST'])
+@app.route('/api/upload', methods=['POST'])
 def upload_file():
     f = request.files['fileToUpload']
+
     if f and allowed_file(f):
         bucket = storage_client.get_bucket("dedbeetz-media")
         blob = bucket.blob('beetz/' + f.filename)
         blob.upload_from_file(f)
-        # f.save(os.path.join('gs://dedbeetz-media', app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
     return render_template('index.html')
 
 
