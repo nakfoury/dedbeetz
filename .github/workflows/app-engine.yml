@@ -32,6 +32,24 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
+    - name: Install Yarn Dependencies
+      uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+      working-directory: ./vue
+
+    - name: Lint Vue
+      uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: lint --no-fix
+      working-directory: ./vue
+
+    - name: Build Static HTML
+      uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: build
+      working-directory: ./vue
+
     - name: Setup gcloud CLI
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:

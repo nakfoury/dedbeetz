@@ -12,35 +12,49 @@
 
 from flask import Flask, request, render_template
 from google.cloud import storage
+import jinja2
+import logging
+import os
+import urllib.request
+
 storage_client = storage.Client()
-
-
-
 
 UPLOAD_FOLDER = 'beetz/'
 
+# If `entrypoint` is not defined in app.yaml, App Engine will look for an app
+# called `app` in `main.py`.
 app = Flask(__name__)
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.jinja_loader = jinja2.FileSystemLoader('vue/dist')
 
 
 def allowed_file(file):
     return True
 
 
-@app.route('/', methods=['GET'])
-def root():
-    return render_template('index.html')
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def vue_client(path):
+    logging.info(path)
+    # Production mode - serve static built files
+    if os.getenv('GAE_ENV', '').startswith('standard'):
+        return render_template('index.html')
+    # Dev mode - proxy the vue dev server
+    else:
+        url = f'http://localhost:3000/{path}'
+        logging.error(url)
+        return urllib.request.urlopen(url).read()
 
 
-@app.route('/', methods=['POST'])
+@app.route('/upload', methods=['POST'])
 def upload_file():
     f = request.files['fileToUpload']
     if f and allowed_file(f):
         bucket = storage_client.get_bucket("dedbeetz-media")
         blob = bucket.blob('beetz/' + f.filename)
         blob.upload_from_file(f)
-        # f.save(os.path.join('gs://dedbeetz-media', app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
-    return render_template('index.html')
+    return ''
 
 
 if __name__ == '__main__':
