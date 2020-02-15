@@ -1,20 +1,41 @@
 <template>
   <b-card>
     <b-card-body>
-      <b-alert variant="danger" v-model="isFailed">{{ errorMessage }}</b-alert>
-      <b-alert variant="success" v-model="isSuccess">Successfully uploaded {{ file.name }}</b-alert>
-      <b-form v-if="!isSuccess" v-on:submit.prevent="submit">
+      <b-alert
+        v-model="isFailed"
+        variant="danger"
+      >
+        {{ errorMessage }}
+      </b-alert>
+      <b-alert
+        v-model="isSuccess"
+        variant="success"
+      >
+        Successfully uploaded {{ file.name }}
+      </b-alert>
+      <b-form
+        v-if="!isSuccess"
+        @submit.prevent="submit"
+      >
         <b-form-group>
-          <b-form-file v-model="file"
-                       accept="audio/*"
-                       placeholder="Choose a beatbox audio file..."
-                       drop-placeholder="Drop beatbox here..."
-                       :disabled="isUploading"
-                       required
+          <b-form-file
+            v-model="file"
+            accept="audio/*"
+            placeholder="Choose a beatbox audio file..."
+            drop-placeholder="Drop beatbox here..."
+            :disabled="isUploading"
+            required
           />
         </b-form-group>
-        <b-button type="submit" variant="primary" :disabled="isUploading">
-          <b-spinner v-if="isUploading" small></b-spinner>
+        <b-button
+          type="submit"
+          variant="primary"
+          :disabled="isUploading"
+        >
+          <b-spinner
+            v-if="isUploading"
+            small
+          />
           Submit
         </b-button>
       </b-form>
@@ -43,6 +64,9 @@ export default {
     isSuccess() { return this.status === STATUS_SUCCESS; },
     isFailed() { return this.status === STATUS_FAILED; },
   },
+  mounted() {
+    this.status = STATUS_INITIAL;
+  },
   methods: {
     submit() {
       const formData = new FormData();
@@ -57,9 +81,6 @@ export default {
           this.status = STATUS_FAILED;
         });
     },
-  },
-  mounted() {
-    this.status = STATUS_INITIAL;
   },
 };
 </script>
