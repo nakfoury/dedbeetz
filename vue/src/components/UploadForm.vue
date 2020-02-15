@@ -68,18 +68,17 @@ export default {
     this.status = STATUS_INITIAL;
   },
   methods: {
-    submit() {
+    async submit() {
       const formData = new FormData();
       formData.append('fileToUpload', this.file);
       this.status = STATUS_UPLOADING;
-      axios.post('/upload', formData)
-        .then(() => {
-          this.status = STATUS_SUCCESS;
-        })
-        .catch((err) => {
-          this.errorMessage = err;
-          this.status = STATUS_FAILED;
-        });
+      try {
+        await axios.post('/upload', formData);
+        this.status = STATUS_SUCCESS;
+      } catch (err) {
+        this.errorMessage = err;
+        this.status = STATUS_FAILED;
+      }
     },
   },
 };
