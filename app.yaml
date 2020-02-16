@@ -2,11 +2,6 @@ runtime: python37
 
 handlers:
 
-- url: /.*
-  script: auto
-  secure: always
-  redirect_http_response_code: 301
-
 - url: /css
   static_dir: vue/dist/css
   secure: always
@@ -19,5 +14,10 @@ handlers:
 
 - url: /js
   static_dir: vue/dist/js
+  secure: always
+  redirect_http_response_code: 301
+
+- url: /.*
+  script: auto
   secure: always
   redirect_http_response_code: 301
