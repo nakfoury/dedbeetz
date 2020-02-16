@@ -54,7 +54,7 @@ def upload_file():
         bucket = storage_client.get_bucket("dedbeetz-media")
         blob = bucket.blob('beetz/' + f.filename)
         blob.upload_from_file(f)
-    return ''
+    return 'http://noproblo.dayjo.org/ZeldaSounds/WW_New/WW_Salvatore_Sploosh.wav'
 
 
 if __name__ == '__main__':
