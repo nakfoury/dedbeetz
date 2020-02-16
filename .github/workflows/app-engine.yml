@@ -9,6 +9,8 @@ jobs:
   build-and-deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
+    container:
+      image: node
     steps:
 
     - name: Checkout
@@ -33,22 +35,16 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
     - name: Install Yarn Dependencies
-      uses: borales/actions-yarn@v2.0.0
-      with:
-        entrypoint: /bin/sh
-        args: '-c "cd vue; yarn install"'
+      run: yarn install
+      working-directory: vue
 
     - name: Lint Vue
-      uses: borales/actions-yarn@v2.0.0
-      with:
-        entrypoint: /bin/sh
-        args: '-c "cd vue; yarn lint --no-fix"'
+      run: yarn lint --no-fix
+      working-directory: vue
 
     - name: Build Static HTML
-      uses: borales/actions-yarn@v2.0.0
-      with:
-        entrypoint: /bin/sh
-        args: '-c "cd vue; yarn build"'
+      run: yarn build
+      working-directory: vue
 
     - name: Setup gcloud CLI
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
