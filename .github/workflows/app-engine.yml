@@ -35,20 +35,20 @@ jobs:
     - name: Install Yarn Dependencies
       uses: borales/actions-yarn@v2.0.0
       with:
-        cmd: install
-      working-directory: ./vue
+        entrypoint: /bin/sh
+        args: -c cd vue; yarn install
 
     - name: Lint Vue
       uses: borales/actions-yarn@v2.0.0
       with:
-        cmd: lint --no-fix
-      working-directory: ./vue
+        entrypoint: /bin/sh
+        args: -c cd vue; yarn lint --no-fix
 
     - name: Build Static HTML
       uses: borales/actions-yarn@v2.0.0
       with:
-        cmd: build
-      working-directory: ./vue
+        entrypoint: /bin/sh
+        args: -c cd vue; yarn build
 
     - name: Setup gcloud CLI
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
