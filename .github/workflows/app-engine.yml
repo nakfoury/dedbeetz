@@ -6,15 +6,51 @@ on:
     - master
 
 jobs:
+
+  build-static-html:
+    name: Build Static HTML
+    runs-on: ubuntu-latest
+    working-directory: vue
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Install Dependencies
+        uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+
+      - name: Lint
+        uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: lint --no-fix
+
+      - name: Build
+        uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: build
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist
+          path: dist
+
   build-and-deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
-    container:
-      image: node
+    needs: build-static-html
     steps:
 
     - name: Checkout
       uses: actions/checkout@master
+
+    - name: Download dist artifact
+      uses: actions/download-artifact@v1
+      with:
+        name: dist
+        path: vue/dist
 
     - name: Set up Python 3.7
       uses: actions/setup-python@master
@@ -33,18 +69,6 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
-    - name: Install Yarn Dependencies
-      run: yarn install
-      working-directory: vue
-
-    - name: Lint Vue
-      run: yarn lint --no-fix
-      working-directory: vue
-
-    - name: Build Static HTML
-      run: yarn build
-      working-directory: vue
 
     - name: Setup gcloud CLI
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
