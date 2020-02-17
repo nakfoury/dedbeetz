@@ -55,7 +55,9 @@ jobs:
            service_account_key: ${{ secrets.GAE_SERVICE_ACCOUNT_KEY }}
 
       - name: Populate GAE key.json
-        run: echo "${ secrets.REAL_GAE_SERVICE_ACCOUNT_KEY }" > key.json
+        run: echo "$REAL_GAE_SERVICE_ACCOUNT_KEY" > key.json
+        env:
+          REAL_GAE_SERVICE_ACCOUNT_KEY: ${{ secrets.REAL_GAE_SERVICE_ACCOUNT_KEY }}
 
       - name: Deploy
         run: gcloud --quiet --project dedbeetz app deploy
