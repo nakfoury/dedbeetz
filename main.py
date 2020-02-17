@@ -10,12 +10,14 @@
 # app = application
 
 
-from flask import Flask, request, render_template
-from google.cloud import storage
-import jinja2
+import datetime
 import logging
 import os
 import urllib.request
+
+import jinja2
+from flask import Flask, request, render_template
+from google.cloud import storage
 
 storage_client = storage.Client()
 
@@ -54,7 +56,8 @@ def upload_file():
         bucket = storage_client.get_bucket("dedbeetz-media")
         blob = bucket.blob('beetz/' + f.filename)
         blob.upload_from_file(f)
-    return 'http://noproblo.dayjo.org/ZeldaSounds/WW_New/WW_Salvatore_Sploosh.wav'
+        file_url = blob.generate_signed_url(expiration=datetime.timedelta(seconds=30))
+    return file_url
 
 
 if __name__ == '__main__':
