@@ -19,7 +19,7 @@ import jinja2
 from flask import Flask, request, render_template
 from google.cloud import storage
 
-storage_client = storage.Client()
+storage_client = storage.Client.from_service_account_json('key.json')
 
 UPLOAD_FOLDER = 'beetz/'
 
