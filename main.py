@@ -56,7 +56,7 @@ def upload_file():
         bucket = storage_client.get_bucket("dedbeetz-media")
         blob = bucket.blob('beetz/' + f.filename)
         blob.upload_from_file(f)
-        file_url = blob.generate_signed_url(expiration=datetime.timedelta(seconds=30))
+        file_url = blob.generate_signed_url(expiration=datetime.timedelta(minutes=60))
     return file_url
 
 
