@@ -19,6 +19,8 @@ import jinja2
 from flask import Flask, request, render_template
 from google.cloud import storage
 
+from ai import ai
+
 storage_client = storage.Client.from_service_account_json('key.json')
 
 UPLOAD_FOLDER = 'beetz/'
@@ -53,9 +55,10 @@ def vue_client(path):
 def upload_file():
     f = request.files['fileToUpload']
     if f and allowed_file(f):
+        fout = ai.add_clicks(f)
         bucket = storage_client.get_bucket("dedbeetz-media")
         blob = bucket.blob('beetz/' + f.filename)
-        blob.upload_from_file(f)
+        blob.upload_from_file(fout)
         file_url = blob.generate_signed_url(expiration=datetime.timedelta(minutes=60))
     return file_url
 

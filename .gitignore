@@ -3,3 +3,4 @@
 /venv
 *.iml
 key.json
+__pycache__
