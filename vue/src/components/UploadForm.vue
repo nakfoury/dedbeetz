@@ -9,6 +9,11 @@
     >
       {{ errorMessage }}
     </b-alert>
+    <audio-recorder
+      class="mb-4"
+      style="text-align: center"
+      @done="onDoneRecording"
+    />
     <b-form @submit.prevent="submit">
       <b-form-group>
         <b-form-file
@@ -21,6 +26,7 @@
         />
       </b-form-group>
       <b-button
+        v-if="file"
         type="submit"
         variant="primary"
         :disabled="isUploading"
@@ -37,6 +43,7 @@
 
 <script>
 import axios from 'axios';
+import AudioRecorder from './AudioRecorder.vue';
 
 const STATUS_INITIAL = 0;
 const STATUS_UPLOADING = 1;
@@ -44,6 +51,7 @@ const STATUS_SUCCESS = 2;
 const STATUS_FAILED = 3;
 
 export default {
+  components: { AudioRecorder },
   data() {
     return {
       file: undefined,
@@ -59,6 +67,10 @@ export default {
     this.status = STATUS_INITIAL;
   },
   methods: {
+    onDoneRecording(file) {
+      this.file = file;
+      this.submit();
+    },
     async submit() {
       const formData = new FormData();
       formData.append('fileToUpload', this.file);

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # from dedbeetz.wsgi import application
 
 # App Engine by default looks for a main.py file at the root of the app

@@ -2,10 +2,13 @@ import librosa
 import soundfile
 import io
 
+
 def add_clicks(f):
     x, sr = soundfile.read(io.BytesIO(f.read()))
-    onset_frames = librosa.onset.onset_detect(x, sr=sr, wait=1, pre_avg=1, post_avg=1, pre_max=1, post_max=1)
-    # kwargs for peak picking vis a vis librosa.util.peak_pick
+    if x.shape[1] > 1:
+        x = x[:, 0]
+    o_env = librosa.onset.onset_strength(x, sr=sr)
+    onset_frames = librosa.onset.onset_detect(onset_envelope=o_env, sr=sr, hop_length=128)
     cowbell, _ = librosa.load('audio/cowbell.wav')
     clicks = librosa.clicks(frames=onset_frames, sr=sr, length=len(x), click=cowbell)
     fout = io.BytesIO()
