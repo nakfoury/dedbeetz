@@ -15,8 +15,10 @@ import datetime
 import logging
 import os
 import urllib.request
+from functools import reduce
 
 import jinja2
+import numpy as np
 from flask import Flask, request, render_template
 from google.cloud import storage
 
@@ -56,7 +58,15 @@ def vue_client(path):
 def upload_file():
     f = request.files['fileToUpload']
     if f and allowed_file(f):
-        fout = ai.add_clicks(f)
+        x, sr = ai.read_formfile(f)
+        # audio processing
+        segments, onsets = ai.segment(x, sr)
+        labels = map(ai.classify, segments)
+        sounds = map(ai.label_to_sound, labels)
+        fout = np.zeros(x.shape, x.dtype)
+        fout = reduce(ai.insert_sound, zip(sounds, onsets), fout)
+        fout = ai.write_fout_as_wav(fout, sr)
+        # gcloud file manipulation
         bucket = storage_client.get_bucket("dedbeetz-media")
         blob = bucket.blob('beetz/' + f.filename)
         blob.upload_from_file(fout)
