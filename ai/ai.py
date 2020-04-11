@@ -20,6 +20,24 @@ def add_clicks(f):
     return fout
 
 
+def read_formfile(f):
+    x, sr = soundfile.read(io.BytesIO(f.read()))
+    if x.shape[1] > 1:
+        x = x[:, 0]
+    return x, sr
+
+
+def segment(x, sr):
+    o_env = librosa.onset.onset_strength(x, sr=sr)
+    onset_frames = librosa.onset.onset_detect(onset_envelope=o_env, sr=sr, units='samples')[1:]
+    return np.split(x, onset_frames), onset_frames
+
+
+def classify(seg):
+    # YOUR CODE GOES HERE
+    return 'cowbell'
+
+
 def label_to_sound(label):
     kit1 = {
         'boots': '/path/to/boots',
@@ -31,30 +49,12 @@ def label_to_sound(label):
     return cowbell
 
 
-def classify(seg):
-    # YOUR CODE GOES HERE
-    return 'cowbell'
-
-
 def insert_sound(cumulative_beat, next_beat):
     sound, onset = next_beat
     if onset + len(sound) > len(cumulative_beat):
-        np.pad(cumulative_beat, (0, len(cumulative_beat) - (onset + len(sound))))
+        cumulative_beat = np.pad(cumulative_beat, (0, (onset + len(sound)) - len(cumulative_beat)))
     cumulative_beat[onset:onset+len(sound)] += sound
     return cumulative_beat
-
-
-def segment(x, sr):
-    o_env = librosa.onset.onset_strength(x, sr=sr)
-    onset_frames = librosa.onset.onset_detect(onset_envelope=o_env, sr=sr, hop_length=128)[1:]
-    return np.split(x, onset_frames), onset_frames
-
-
-def read_formfile(f):
-    x, sr = soundfile.read(io.BytesIO(f.read()))
-    if x.shape[1] > 1:
-        x = x[:, 0]
-    return x, sr
 
 
 def write_fout_as_wav(x, sr):
